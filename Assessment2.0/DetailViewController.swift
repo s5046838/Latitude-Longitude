@@ -15,7 +15,7 @@ protocol DetailViewControllerDelegate: class {
     
 }
 
-class DetailViewController: UIViewController {
+class DetailViewController: UIViewController, UITextFieldDelegate {
 //    var copyOfOriginalExpense: Location?
 //    var location: Location?
     weak var delegate: DetailViewControllerDelegate?
@@ -33,6 +33,10 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
+        self.nameField.delegate = self
+        self.addressField.delegate = self
+        self.latitudeField.delegate = self
+        self.longitudeField.delegate = self
         // Do any additional setup after loading the view.
 
     }
@@ -75,8 +79,6 @@ class DetailViewController: UIViewController {
             let latitude = Double(latitudeText) else { return }
         number = latitude
         reverseGeoCode()
-
-
     }
     
     @IBAction func longitudeInputField(_ sender: UITextField) {
@@ -84,8 +86,7 @@ class DetailViewController: UIViewController {
             let longitude = Double(longitudeText) else { return }
         number1 = longitude
         reverseGeoCode()
-        
-        
+  
     }
     
     @IBAction func clearField(_ sender: Any) {
@@ -173,6 +174,12 @@ class DetailViewController: UIViewController {
         configureView()
         guard let d = delegate else { return }
         d.cancelPressed()
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return false
+        
     }
     
     var detailItem: Location? {

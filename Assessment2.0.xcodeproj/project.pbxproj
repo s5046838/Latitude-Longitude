@@ -15,6 +15,9 @@
 		390B719C2265956300713535 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 390B719A2265956300713535 /* LaunchScreen.storyboard */; };
 		390B71A72265956300713535 /* Assessment2_0Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 390B71A62265956300713535 /* Assessment2_0Tests.swift */; };
 		390B71B22265956300713535 /* Assessment2_0UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 390B71B12265956300713535 /* Assessment2_0UITests.swift */; };
+		390B71C0226595BA00713535 /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 390B71BF226595BA00713535 /* Contact.swift */; };
+		390B71C1226595BA00713535 /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 390B71BF226595BA00713535 /* Contact.swift */; };
+		39216224226D6A20005DD14F /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39216223226D6A20005DD14F /* CoreLocation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +52,8 @@
 		390B71AD2265956300713535 /* Assessment2.0UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Assessment2.0UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		390B71B12265956300713535 /* Assessment2_0UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assessment2_0UITests.swift; sourceTree = "<group>"; };
 		390B71B32265956300713535 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		390B71BF226595BA00713535 /* Contact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
+		39216223226D6A20005DD14F /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +61,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				39216224226D6A20005DD14F /* CoreLocation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,6 +89,7 @@
 				390B71A52265956300713535 /* Assessment2.0Tests */,
 				390B71B02265956300713535 /* Assessment2.0UITests */,
 				390B718D2265956200713535 /* Products */,
+				39216222226D6A1F005DD14F /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -106,6 +113,7 @@
 				390B71982265956300713535 /* Assets.xcassets */,
 				390B719A2265956300713535 /* LaunchScreen.storyboard */,
 				390B719D2265956300713535 /* Info.plist */,
+				390B71BF226595BA00713535 /* Contact.swift */,
 			);
 			path = Assessment2.0;
 			sourceTree = "<group>";
@@ -126,6 +134,14 @@
 				390B71B32265956300713535 /* Info.plist */,
 			);
 			path = Assessment2.0UITests;
+			sourceTree = "<group>";
+		};
+		39216222226D6A1F005DD14F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				39216223226D6A20005DD14F /* CoreLocation.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -259,6 +275,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				390B71C0226595BA00713535 /* Contact.swift in Sources */,
 				390B71942265956200713535 /* DetailViewController.swift in Sources */,
 				390B71922265956200713535 /* MasterViewController.swift in Sources */,
 				390B71902265956200713535 /* AppDelegate.swift in Sources */,
@@ -269,6 +286,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				390B71C1226595BA00713535 /* Contact.swift in Sources */,
 				390B71A72265956300713535 /* Assessment2_0Tests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

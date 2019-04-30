@@ -58,18 +58,18 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
         guard let location = detailItem else { return }
         nameField?.text = location.name
         addressField?.text = "\(location.address)"
-//        latitudeField?.text = "\(location.latitude)"
-//        longitudeField?.text = "\(location.longitude)"
+        latitudeField?.text = "\(location.latitude)"
+        longitudeField?.text = "\(location.longitude)"
 
         guard copyOfOriginalExpense == nil else { return }
-        copyOfOriginalExpense = Location(name: location.name, address: location.address)
+        copyOfOriginalExpense = Location(name: location.name, address: location.address, latitude: location.latitude, longitude: location.longitude)
         
         
     }
     
-    @IBAction func nameInputField(_ sender: UITextField) {
-        self.geoCode(sender: sender)
-    }
+//    @IBAction func nameInputField(_ sender: UITextField) {
+//        self.geoCode(sender: sender)
+//    }
     @IBAction func addressInputField(_ sender: UITextField) {
         self.geoCode(sender: sender)
     }
@@ -145,14 +145,14 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
 //        detailItem?.latitude = latitudeField.text ?? ""
 //        detailItem?.longitude = longitudeField.text ?? ""
         
-//        guard let latitudeText = latitudeField.text,
-//            let latitude = Double(latitudeText) else { return }
-//        detailItem?.latitude = latitude
+        guard let latitudeText = latitudeField?.text else { return }
+            let latitude = Double(latitudeText) ?? 0.0
+        detailItem?.latitude = latitude
 //
-//        guard let longitudeText = longitudeField.text,
-//            let longitude = Double(longitudeText) else { return }
-//        detailItem?.longitude = longitude
-        
+        guard let longitudeText = longitudeField.text else { return }
+            let longitude = Double(longitudeText) ?? 0.0
+        detailItem?.longitude = longitude
+
         
         // how to deal with a data type is too ambigious
     }
@@ -194,5 +194,6 @@ class DetailViewController: UIViewController, UITextFieldDelegate {
             configureView()
         }
     }
+    
     
 }

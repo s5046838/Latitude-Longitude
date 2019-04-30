@@ -39,9 +39,6 @@
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" textContentType="name"/>
-                                <connections>
-                                    <action selector="nameInputField:" destination="JEX-9P-axG" eventType="editingChanged" id="S55-8p-vsH"/>
-                                </connections>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Address" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1Z0-Z6-ieX">
                                 <rect key="frame" x="87" y="143" width="268" height="30"/>

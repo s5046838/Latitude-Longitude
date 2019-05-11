@@ -29,26 +29,6 @@ class MasterViewController: UITableViewController, UITextFieldDelegate, DetailVi
         decode()
     }
 
-//        let aquarium = User(firstName: a, address: b)
-//
-//        let enclosures = [aquarium]
-//        let encoder = JSONEncoder()
-//        do {
-//            let json = try encoder.encode(enclosures)
-//            let fileURL = URL(fileURLWithPath: "/tmp/json")
-//            try json.write(to: fileURL, options: .atomic)
-//            let data = try Data(contentsOf: fileURL)
-//            let decoder = JSONDecoder()
-//            let places = try decoder.decode([User].self, from: data)
-//            print("Got\(places.count) places:")
-//            for place in places{
-//                print(place.firstName)
-//            }
-//        } catch {
-//            print("Error: \(error)")
-//        }
-    
-    
     func encode() {
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted
@@ -139,7 +119,6 @@ class MasterViewController: UITableViewController, UITextFieldDelegate, DetailVi
         let i = indexPath.row
         cell.textLabel?.text = "Name: \(objects[i].name)"
         cell.detailTextLabel?.text = "Address: \(objects[i].address)"
-        //        print(objects[i].name, objects[i].address, objects[i].latitude, objects[i].longitude)
         encode()
         return cell
         

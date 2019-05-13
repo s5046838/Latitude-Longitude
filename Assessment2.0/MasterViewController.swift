@@ -8,6 +8,7 @@
 import CoreLocation
 import UIKit
 import Foundation
+import MapKit
 
 class MasterViewController: UITableViewController, UITextFieldDelegate, DetailViewControllerDelegate {
     

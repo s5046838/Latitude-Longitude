@@ -40,6 +40,10 @@
                                 <navigationItem title="Details" id="PGL-gU-rgN"/>
                             </items>
                         </navigationBar>
+                        <mapView key="tableFooterView" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" id="sYQ-mC-JzU">
+                            <rect key="frame" x="0.0" y="276" width="375" height="329"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        </mapView>
                         <sections>
                             <tableViewSection headerTitle="Name/Address" id="kVc-0I-alp">
                                 <cells>
@@ -74,7 +78,7 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                     <connections>
-                                                        <action selector="addressInputField:" destination="fcG-15-UdW" eventType="editingDidEnd" id="G7j-KT-WxA"/>
+                                                        <action selector="addressInputField:" destination="fcG-15-UdW" eventType="editingChanged" id="BFp-BA-Wy5"/>
                                                     </connections>
                                                 </textField>
                                             </subviews>
@@ -98,7 +102,7 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                     <connections>
-                                                        <action selector="lat:" destination="fcG-15-UdW" eventType="editingChanged" id="Jyd-MT-A7p"/>
+                                                        <action selector="latitudeInputField:" destination="fcG-15-UdW" eventType="editingChanged" id="iRk-Pa-Kzd"/>
                                                     </connections>
                                                 </textField>
                                             </subviews>
@@ -118,7 +122,7 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                     <connections>
-                                                        <action selector="long:" destination="fcG-15-UdW" eventType="editingChanged" id="e4w-v3-C3H"/>
+                                                        <action selector="longitudeInputField:" destination="fcG-15-UdW" eventType="editingChanged" id="S7b-TT-nto"/>
                                                     </connections>
                                                 </textField>
                                             </subviews>
@@ -137,12 +141,13 @@
                         <outlet property="addressField" destination="GJd-EN-Jtk" id="947-c0-eUG"/>
                         <outlet property="latitudeField" destination="YIP-y9-L8E" id="mlm-Ys-1y3"/>
                         <outlet property="longitudeField" destination="sdW-PN-RB4" id="DWG-90-0xC"/>
+                        <outlet property="mapViewField" destination="sYQ-mC-JzU" id="mzd-eL-jeW"/>
                         <outlet property="nameField" destination="N6e-Ld-cru" id="qMy-65-nBh"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1Hp-EK-6Ja" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="980" y="128"/>
+            <point key="canvasLocation" x="980" y="127.28635682158921"/>
         </scene>
         <!--Split View Controller-->
         <scene sceneID="Nki-YV-4Qg">

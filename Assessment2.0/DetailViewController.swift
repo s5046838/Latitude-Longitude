@@ -22,7 +22,8 @@ class DetailViewController: UITableViewController, UITextFieldDelegate {
     weak var delegate: DetailViewControllerDelegate?
     var number = 0.0
     var number1 = 0.0
-
+    var a = 0.0
+    var b = 0.0
 
     @IBOutlet weak var nameField: UITextField!
     @IBOutlet weak var addressField: UITextField!
@@ -74,7 +75,7 @@ class DetailViewController: UITableViewController, UITextFieldDelegate {
 
     @IBAction func addressInputField(_ sender: UITextField) {
         self.geoCode(sender: sender)
-        mapView()
+        mapView1()
     }
     
 
@@ -110,7 +111,7 @@ class DetailViewController: UITableViewController, UITextFieldDelegate {
                 }
                 print("Name: \(name), \(place.administrativeArea ?? "nothingFound"), \(place.locality ?? "nothingFound")")
                 
-                self.addressField.text = name
+                self.addressField.text = "(name)"
             }
         }
 
@@ -133,8 +134,12 @@ class DetailViewController: UITableViewController, UITextFieldDelegate {
                 }
                 self.latitudeField.text = String(location.coordinate.latitude)
                 self.longitudeField.text = String(location.coordinate.longitude)
+                self.a = location.coordinate.latitude
+                self.b = location.coordinate.longitude
+                
             }
         }
+        
     }
 
     func saveInModel(){
@@ -159,6 +164,27 @@ class DetailViewController: UITableViewController, UITextFieldDelegate {
     func mapView(){
 
         let coordinates = CLLocationCoordinate2D(latitude: number, longitude: number1)
+        print(coordinates)
+        let region = MKCoordinateRegion(center: coordinates, latitudinalMeters: 10_000, longitudinalMeters: 10_000)
+        
+        mapViewField.setRegion(region, animated: true)
+        //mapOutlet.setCenter(coordinates, animated: true)
+        
+        //mapPin
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(3)) {
+            let annotation = MKPointAnnotation()
+            annotation.coordinate = coordinates
+            
+            annotation.title = self.nameField.text
+            annotation.subtitle = "\(coordinates.latitude), \(coordinates.longitude)"
+            //let pin = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "")
+            self.mapViewField.addAnnotation(annotation)
+        }
+    }
+    
+    func mapView1(){
+        
+        let coordinates = CLLocationCoordinate2D(latitude: a, longitude: b)
         print(coordinates)
         let region = MKCoordinateRegion(center: coordinates, latitudinalMeters: 10_000, longitudinalMeters: 10_000)
         

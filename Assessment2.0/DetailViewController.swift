@@ -36,7 +36,6 @@ class DetailViewController: UITableViewController, UITextFieldDelegate {
         let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelPressed(_:)))
         self.navigationItem.rightBarButtonItem = cancelButton
         super.viewDidLoad()
-        mapView()
         configureView()
         self.nameField.delegate = self
         self.addressField.delegate = self
@@ -47,7 +46,6 @@ class DetailViewController: UITableViewController, UITextFieldDelegate {
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
         configureView()
         mapView()
         // Do any additional setup after loading the view.
@@ -76,6 +74,7 @@ class DetailViewController: UITableViewController, UITextFieldDelegate {
 
     @IBAction func addressInputField(_ sender: UITextField) {
         self.geoCode(sender: sender)
+        mapView()
     }
     
 
@@ -84,6 +83,7 @@ class DetailViewController: UITableViewController, UITextFieldDelegate {
             let latitude = Double(latitudeText) else { return }
         number = latitude
         reverseGeoCode()
+        mapView()
     }
     
     @IBAction func longitudeInputField(_ sender: UITextField) {
@@ -91,6 +91,7 @@ class DetailViewController: UITableViewController, UITextFieldDelegate {
             let longitude = Double(longitudeText) else { return }
         number1 = longitude
         reverseGeoCode()
+        mapView()
     }
     
 
@@ -156,16 +157,10 @@ class DetailViewController: UITableViewController, UITextFieldDelegate {
     }
 
     func mapView(){
-        guard let latitudeText = latitudeField?.text else { return }
-        let latitude = Double(latitudeText) ?? 0.0
 
-        guard let longitudeText = longitudeField.text else { return }
-        let longitude = Double(longitudeText) ?? 0.0
-
-        let coordinates = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        let coordinates = CLLocationCoordinate2D(latitude: number, longitude: number1)
         print(coordinates)
         let region = MKCoordinateRegion(center: coordinates, latitudinalMeters: 10_000, longitudinalMeters: 10_000)
-        print(region)
         
         mapViewField.setRegion(region, animated: true)
         //mapOutlet.setCenter(coordinates, animated: true)

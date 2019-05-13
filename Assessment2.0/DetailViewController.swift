@@ -105,13 +105,13 @@ class DetailViewController: UITableViewController, UITextFieldDelegate {
                 return
             }
             for place in places{
-                guard let name = place.name else {
+                guard let name = place.name, let state = place.administrativeArea, let cityLocation = place.locality else {
                     print("Got no name")
                     continue
                 }
                 print("Name: \(name), \(place.administrativeArea ?? "nothingFound"), \(place.locality ?? "nothingFound")")
                 
-                self.addressField.text = "(name)"
+                self.addressField.text = "\(name), \(cityLocation),\(state) "
             }
         }
 
@@ -162,8 +162,15 @@ class DetailViewController: UITableViewController, UITextFieldDelegate {
     }
 
     func mapView(){
+        guard let latitudeText = latitudeField?.text else { return }
+        let latitude = Double(latitudeText) ?? 0.0
+        detailItem?.latitude = latitude
+        //
+        guard let longitudeText = longitudeField.text else { return }
+        let longitude = Double(longitudeText) ?? 0.0
+        detailItem?.longitude = longitude
 
-        let coordinates = CLLocationCoordinate2D(latitude: number, longitude: number1)
+        let coordinates = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         print(coordinates)
         let region = MKCoordinateRegion(center: coordinates, latitudinalMeters: 10_000, longitudinalMeters: 10_000)
         

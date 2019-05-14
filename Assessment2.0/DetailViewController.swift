@@ -10,7 +10,9 @@ import CoreLocation
 import UIKit
 import MapKit
 
+///Protocols designated to check if user presses ok or cancel
 protocol DetailViewControllerDelegate: class {
+    /// okayPressed function protocol is designed to accept input when activ
     func okayPressed()
     func cancelPressed()
     
@@ -30,6 +32,7 @@ class DetailViewController: UITableViewController, UITextFieldDelegate {
     @IBOutlet weak var latitudeField: UITextField!
     @IBOutlet weak var longitudeField: UITextField!
     @IBOutlet weak var detailDescriptionLabel: UILabel!
+    
     ///mapViewField is the map object placed onto the UI View
     @IBOutlet weak var mapViewField: MKMapView!
     
@@ -40,6 +43,8 @@ class DetailViewController: UITableViewController, UITextFieldDelegate {
         self.navigationItem.rightBarButtonItem = cancelButton
         super.viewDidLoad()
         configureView()
+        
+        ///assigning the textFields as their own delegates
         self.nameField.delegate = self
         self.addressField.delegate = self
         self.latitudeField.delegate = self
@@ -47,6 +52,8 @@ class DetailViewController: UITableViewController, UITextFieldDelegate {
         // Do any additional setup after loading the view.
 
     }
+    
+    ///calling the configureView/mapViewFunction
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         configureView()
@@ -59,16 +66,16 @@ class DetailViewController: UITableViewController, UITextFieldDelegate {
         delegate?.okayPressed()
     }
     
-
     func configureView(){
         guard let location = detailItem else { return }
         nameField?.text = location.name
         addressField?.text = "\(location.address)"
         latitudeField?.text = "\(location.latitude)"
         longitudeField?.text = "\(location.longitude)"
-
-        guard copyOfOriginalExpense == nil else { return }
-        copyOfOriginalExpense = Location(name: location.name, address: location.address, latitude: location.latitude, longitude: location.longitude)
+        
+        /// copyOfOriginalLocation is a variable which stores the class uneditied by the user to act as a cancel feature 
+        guard copyOfOriginalLocation == nil else { return }
+        copyOfOriginalLocation = Location(name: location.name, address: location.address, latitude: location.latitude, longitude: location.longitude)
         mapView()
         
         
@@ -121,7 +128,6 @@ class DetailViewController: UITableViewController, UITextFieldDelegate {
     }
     /// Function responsible for doing  geocoding and looking up an address based off its street name/address and outpuitting its latitude/longitude
     func geoCode (sender: UITextField){
-        print(sender.text!)
         let geo = CLGeocoder()
         let address = sender.text ?? ""
         
@@ -187,7 +193,7 @@ class DetailViewController: UITableViewController, UITextFieldDelegate {
     
     /// function responsible for when the user presses cancel
     @IBAction func cancelPressed(_ sender: Any) {
-        guard let copy = copyOfOriginalExpense else { return }
+        guard let copy = copyOfOriginalLocation else { return }
         detailItem?.name = copy.name
         detailItem?.address = copy.address
 //        detailItem?.latitude = copy.latitude
@@ -213,7 +219,7 @@ class DetailViewController: UITableViewController, UITextFieldDelegate {
         }
     }
     /// The model class saved as a variable to use in the MasterDetailView if the user decides to cancel any inputthe user doesn't want to enter
-    var copyOfOriginalExpense: Location? {
+    var copyOfOriginalLocation: Location? {
         didSet {
             // Update the view.
             configureView()

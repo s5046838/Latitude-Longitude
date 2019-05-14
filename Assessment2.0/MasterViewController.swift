@@ -12,14 +12,19 @@ import MapKit
 
 class MasterViewController: UITableViewController, UITextFieldDelegate, DetailViewControllerDelegate {
     
+    /// objects stores the model class
     var objects = [Location]()
+    /// newLocation is a bool for determining whether a new location is added or not
     var newLocation = false
+    ///detailViewController is for the split screen in masterdetailView
     var detailViewController: DetailViewController? = nil
+    ///docs is the directory for JSON encoding/decoding
     let docs = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
 
     override func viewDidLoad() {
         navigationItem.leftBarButtonItem = editButtonItem
         super.viewDidLoad()
+        ///Code for masterDetailView tro work in IPAD format
         if let split = splitViewController {
             let controllers = split.viewControllers
             detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? DetailViewController
@@ -29,7 +34,7 @@ class MasterViewController: UITableViewController, UITextFieldDelegate, DetailVi
     override func viewDidAppear(_ animated: Bool) {
         decode()
     }
-
+    /// Endocding JSON for persistence to save user data after the app's closed
     func encode() {
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted
@@ -42,7 +47,7 @@ class MasterViewController: UITableViewController, UITextFieldDelegate, DetailVi
             print(error.localizedDescription)
         }
     }
-    
+    /// Decoding JSON persistance to decode user data saved and show after app has been re opened
     fileprivate func decode() {
         do {
             let fileURL = docs.appendingPathComponent("json")
@@ -57,7 +62,7 @@ class MasterViewController: UITableViewController, UITextFieldDelegate, DetailVi
         }
     }
 
-    
+    ///Segue between different views
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "showDetail" {
@@ -78,13 +83,14 @@ class MasterViewController: UITableViewController, UITextFieldDelegate, DetailVi
             controller.navigationItem.leftItemsSupplementBackButton = true
         }
     }
-    
+    /// function checks if user presses ok
     func okayPressed(){
         //print("okay")
         tableView.reloadData()
         newLocation = false
     }
     
+    /// function checks if user presses cancel
     func cancelPressed(){
         if newLocation {
             objects.removeLast()
@@ -96,7 +102,7 @@ class MasterViewController: UITableViewController, UITextFieldDelegate, DetailVi
         encode()
     }
     
-    
+    /// addObject adds a object into the model once it has been inputted, as well as segue it into the table view
     @IBAction func addObject(_ sender: Any) {
         let n = objects.count
         let location = Location(name: "", address: "", latitude: 0.0, longitude: 0.0)
@@ -110,7 +116,7 @@ class MasterViewController: UITableViewController, UITextFieldDelegate, DetailVi
     
     
     // MARK: Table View Data Source
-    
+    //Returns number of rows in given section
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return objects.count
     }

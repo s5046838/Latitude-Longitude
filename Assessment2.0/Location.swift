@@ -8,24 +8,7 @@
 
 import Foundation
 
-//class Contact {
-//    
-//    var famName: String
-//    var othName: String
-//    var phoneNum: String
-//    
-//    init(famName: String, othName: String, phoneNum: String){
-//        self.famName = famName
-//        self.othName = othName
-//        self.phoneNum = phoneNum
-//    }
-//    
-//    var description: String {
-//        return "\(othName) \(famName): \(phoneNum)"
-//    }
-//    
-//}
-
+/// Model Class to store input user data. Codable added after class name to make it codable for JSON persistance
 class Location:Codable {
     var name: String = ""
     var address: String = ""

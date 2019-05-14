@@ -5,7 +5,7 @@
 //  Created by Kayn Critchley on 15/4/19.
 //  Copyright © 2019 Kayn Critchley. All rights reserved.
 //
-
+/// Frameworks imported into swift
 import CoreLocation
 import UIKit
 import MapKit
@@ -17,23 +17,25 @@ protocol DetailViewControllerDelegate: class {
 }
 
 class DetailViewController: UITableViewController, UITextFieldDelegate {
-//    var copyOfOriginalExpense: Location?
-//    var location: Location?
+    
+    ///DetailView controller delegate
     weak var delegate: DetailViewControllerDelegate?
-    var number = 0.0
-    var number1 = 0.0
-    var a = 0.0
-    var b = 0.0
+    /// var latitudeNumber and longitudeNumber store the user's inputted lat/long from their corrosponding textFields to use in reverseGeo location
+    var latitudeNumber = 0.0
+    var longitudeNumber = 0.0
 
+    ///The text fields the user interacts with and enters user data into
     @IBOutlet weak var nameField: UITextField!
     @IBOutlet weak var addressField: UITextField!
     @IBOutlet weak var latitudeField: UITextField!
     @IBOutlet weak var longitudeField: UITextField!
     @IBOutlet weak var detailDescriptionLabel: UILabel!
+    ///mapViewField is the map object placed onto the UI View
     @IBOutlet weak var mapViewField: MKMapView!
     
     
     override func viewDidLoad() {
+        ///cancel button dynamically added
         let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelPressed(_:)))
         self.navigationItem.rightBarButtonItem = cancelButton
         super.viewDidLoad()
@@ -58,9 +60,7 @@ class DetailViewController: UITableViewController, UITextFieldDelegate {
     }
     
 
-    
     func configureView(){
-        //guard let variable = variable else {return} is a method of dealing with this error --- Value of optional type 'String?' must be unwrapped to a value of type 'String'
         guard let location = detailItem else { return }
         nameField?.text = location.name
         addressField?.text = "\(location.address)"
@@ -69,55 +69,57 @@ class DetailViewController: UITableViewController, UITextFieldDelegate {
 
         guard copyOfOriginalExpense == nil else { return }
         copyOfOriginalExpense = Location(name: location.name, address: location.address, latitude: location.latitude, longitude: location.longitude)
+        mapView()
         
         
-    }
-
-    @IBAction func addressInputField(_ sender: UITextField) {
-        self.geoCode(sender: sender)
-        mapView1()
     }
     
-
+    /// Responsible for taking the user input from the AddressField and applying the geoCode function and mapView Function
+    @IBAction func addressInputField(_ sender: UITextField) {
+        self.geoCode(sender: sender)
+        mapView()
+    }
+    
+    /// Responsible for taking the user input from the LatitudeField and applying the ReverseGeoCode function and mapView Function
     @IBAction func latitudeInputField(_ sender: UITextField) {
         guard let latitudeText = sender.text,
             let latitude = Double(latitudeText) else { return }
-        number = latitude
+        latitudeNumber = latitude
         reverseGeoCode()
         mapView()
     }
     
+    /// Responsible for taking the user input from the Longitude and applying the reverseGeoCode function and mapView Function
     @IBAction func longitudeInputField(_ sender: UITextField) {
         guard let longitudeText = sender.text,
             let longitude = Double(longitudeText) else { return }
-        number1 = longitude
+        longitudeNumber = longitude
         reverseGeoCode()
         mapView()
     }
     
-
+    /// Function responsible for doing reverse geocoding and looking up an address based off its latitude/longitude and outputting the locations name/street, city, state and country
     func reverseGeoCode(){
         let geo = CLGeocoder()
-        let location = CLLocation(latitude: number, longitude: number1)
+        let location = CLLocation(latitude: latitudeNumber, longitude: longitudeNumber)
         geo.reverseGeocodeLocation(location){
             guard let places = $0 else {
                 print("Got error \(String(describing: $1))")
                 return
             }
             for place in places{
-                guard let name = place.name, let state = place.administrativeArea, let cityLocation = place.locality else {
+                guard let name = place.name, let state = place.administrativeArea, let cityLocation = place.locality, let country = place.country else {
                     print("Got no name")
                     continue
                 }
                 print("Name: \(name), \(place.administrativeArea ?? "nothingFound"), \(place.locality ?? "nothingFound")")
-                
-                self.addressField.text = "\(name), \(cityLocation),\(state) "
+                self.addressField.text = "\(name), \(cityLocation), \(state), \(country)"
             }
         }
 
   
     }
-    
+    /// Function responsible for doing  geocoding and looking up an address based off its street name/address and outpuitting its latitude/longitude
     func geoCode (sender: UITextField){
         print(sender.text!)
         let geo = CLGeocoder()
@@ -134,89 +136,56 @@ class DetailViewController: UITableViewController, UITextFieldDelegate {
                 }
                 self.latitudeField.text = String(location.coordinate.latitude)
                 self.longitudeField.text = String(location.coordinate.longitude)
-                self.a = location.coordinate.latitude
-                self.b = location.coordinate.longitude
                 
             }
         }
         
     }
-
+    
+    ///Saves inputted data from textFields into model class Location
     func saveInModel(){
-        // this is another way of dealing with the error above. delete the ?? "" to see error
         detailItem?.name = nameField.text ?? ""
         detailItem?.address = addressField.text ?? ""
-//        detailItem?.latitude = latitudeField.text ?? ""
-//        detailItem?.longitude = longitudeField.text ?? ""
-        
         guard let latitudeText = latitudeField?.text else { return }
             let latitude = Double(latitudeText) ?? 0.0
         detailItem?.latitude = latitude
-//
         guard let longitudeText = longitudeField.text else { return }
             let longitude = Double(longitudeText) ?? 0.0
         detailItem?.longitude = longitude
-
-        
-        // how to deal with a data type is too ambigious
     }
-
+    
+    /// mapView Function is responsible for taking a latitude/longitude and entering that data into the map and updating the map's location
     func mapView(){
         guard let latitudeText = latitudeField?.text else { return }
         let latitude = Double(latitudeText) ?? 0.0
-        detailItem?.latitude = latitude
-        //
         guard let longitudeText = longitudeField.text else { return }
         let longitude = Double(longitudeText) ?? 0.0
-        detailItem?.longitude = longitude
-
+    
+        ///code to find map location based off latitude/longitude
         let coordinates = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         print(coordinates)
         let region = MKCoordinateRegion(center: coordinates, latitudinalMeters: 10_000, longitudinalMeters: 10_000)
-        
         mapViewField.setRegion(region, animated: true)
-        //mapOutlet.setCenter(coordinates, animated: true)
-        
-        //mapPin
+
+        ///mapPin places a pin inside the map based off the latitude/longitude
         DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(3)) {
             let annotation = MKPointAnnotation()
             annotation.coordinate = coordinates
-            
             annotation.title = self.nameField.text
             annotation.subtitle = "\(coordinates.latitude), \(coordinates.longitude)"
-            //let pin = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "")
+
             self.mapViewField.addAnnotation(annotation)
         }
     }
     
-    func mapView1(){
-        
-        let coordinates = CLLocationCoordinate2D(latitude: a, longitude: b)
-        print(coordinates)
-        let region = MKCoordinateRegion(center: coordinates, latitudinalMeters: 10_000, longitudinalMeters: 10_000)
-        
-        mapViewField.setRegion(region, animated: true)
-        //mapOutlet.setCenter(coordinates, animated: true)
-        
-        //mapPin
-        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(3)) {
-            let annotation = MKPointAnnotation()
-            annotation.coordinate = coordinates
-            
-            annotation.title = self.nameField.text
-            annotation.subtitle = "\(coordinates.latitude), \(coordinates.longitude)"
-            //let pin = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "")
-            self.mapViewField.addAnnotation(annotation)
-        }
-    }
-    
-    
+    /// function responsible for when the user presses ok
     @IBAction func okayPressed(_ sender: Any) {
         if let d = delegate{
             d.okayPressed()
         }
     }
     
+    /// function responsible for when the user presses cancel
     @IBAction func cancelPressed(_ sender: Any) {
         guard let copy = copyOfOriginalExpense else { return }
         detailItem?.name = copy.name
@@ -229,18 +198,21 @@ class DetailViewController: UITableViewController, UITextFieldDelegate {
         d.cancelPressed()
     }
     
+    /// function responsible for when the user ends using onscreen keyboard
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.view.endEditing(true)
         return false
         
     }
     
+    /// The model class saved as a variable to use in the MasterDetailView to store user input into
     var detailItem: Location? {
         didSet {
             // Update the view.
             configureView()
         }
     }
+    /// The model class saved as a variable to use in the MasterDetailView if the user decides to cancel any inputthe user doesn't want to enter
     var copyOfOriginalExpense: Location? {
         didSet {
             // Update the view.
